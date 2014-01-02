@@ -10,7 +10,7 @@ class CreateRevisions < ActiveRecord::Migration
       t.text :description
       
       
-      t.integer :revision_status # major or minor?
+      t.integer :status # major or minor? REVISION_STATUS
       
       
       
