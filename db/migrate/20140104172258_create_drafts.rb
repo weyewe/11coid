@@ -1,6 +1,6 @@
-class CreateRevisions < ActiveRecord::Migration
+class CreateDrafts < ActiveRecord::Migration
   def change
-    create_table :revisions do |t|
+    create_table :drafts do |t|
       t.integer :job_id
       t.integer :user_id 
       t.integer :category_id 
@@ -21,9 +21,7 @@ class CreateRevisions < ActiveRecord::Migration
       t.boolean :is_cleared, :default => false
       t.datetime :cleared_at 
       
-      t.integer :clearance_status  
-      
-      
+      t.integer :clearance_status
 
       t.timestamps
     end
