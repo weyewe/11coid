@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140102103622) do
+ActiveRecord::Schema.define(version: 20140104172258) do
 
   create_table "categories", force: true do |t|
     t.text     "description"
@@ -28,19 +28,7 @@ ActiveRecord::Schema.define(version: 20140102103622) do
     t.datetime "updated_at"
   end
 
-  create_table "jobs", force: true do |t|
-    t.integer  "client_id"
-    t.integer  "category_id"
-    t.integer  "user_id"
-    t.text     "description"
-    t.datetime "dispatched_at"
-    t.boolean  "is_finished",   default: false
-    t.datetime "finished_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "revisions", force: true do |t|
+  create_table "drafts", force: true do |t|
     t.integer  "job_id"
     t.integer  "user_id"
     t.integer  "category_id"
@@ -52,6 +40,18 @@ ActiveRecord::Schema.define(version: 20140102103622) do
     t.boolean  "is_cleared",       default: false
     t.datetime "cleared_at"
     t.integer  "clearance_status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "jobs", force: true do |t|
+    t.integer  "client_id"
+    t.integer  "category_id"
+    t.integer  "user_id"
+    t.text     "description"
+    t.datetime "dispatched_at"
+    t.boolean  "is_finished",   default: false
+    t.datetime "finished_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

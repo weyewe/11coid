@@ -3,6 +3,8 @@ class Job < ActiveRecord::Base
   belongs_to :user 
   belongs_to :client
   
+  has_many :drafts 
+  
   
   def self.create_object( params ) 
   end

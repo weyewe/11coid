@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
          
   before_save :ensure_authentication_token
   
+  has_many :jobs
+  
   def ensure_authentication_token
     if authentication_token.blank?
       self.authentication_token = generate_authentication_token

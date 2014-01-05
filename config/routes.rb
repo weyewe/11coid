@@ -9,7 +9,7 @@ EleveniaSheet::Application.routes.draw do
     
     
     resources :jobs
-    resources :revisions
+    resources :drafts
   end
 
 end
