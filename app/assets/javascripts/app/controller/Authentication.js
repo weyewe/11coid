@@ -158,6 +158,7 @@ Ext.define("AM.controller.Authentication", {
 		    },
 		    jsonData: data,
 		    success: function(result, request ) {
+						// console.log("Success auth");
 						fieldset.setLoading( false ) ;
 						// cleaning the form data
 						var form = fieldset.up('form');
@@ -170,20 +171,29 @@ Ext.define("AM.controller.Authentication", {
 						var responseText=  result.responseText; 
 						var data = Ext.decode(responseText ); 
 						
-						var currentUserObject = {
-							'auth_token' : data['auth_token'] ,
-							'email'				: data['email'],
-							'role'				: Ext.decode( data['role'] ) 
-						};
-				 
-						localStorage.setItem('currentUser', Ext.encode( currentUserObject ));
+						// console.log( data ) ;
+						if( data['success'] === true ){
+							var currentUserObject = {
+								'auth_token' : data['auth_token'] ,
+								'email'				: data['email'],
+								'role'				: Ext.decode( data['role'] ) 
+							};
+
+							localStorage.setItem('currentUser', Ext.encode( currentUserObject ));
+
+							// console.log("The currentUserObject");
+							// console.log( currentUserObject );
+							me.currentUser = currentUserObject;
+							me.showProtectedArea();
+							
+						}else{
+							
+							Ext.Msg.alert("Login Error", "The email-password combination is invalid");
+						}
 						
-						// console.log("The currentUserObject");
-						// console.log( currentUserObject );
-						me.currentUser = currentUserObject;
-						me.showProtectedArea(); 
 		    },
 		    failure: function(result, request ) {
+						// console.log("false auth");
 						fieldset.setLoading( false ) ;
 						Ext.Msg.alert("Login Error", "The email-password combination is invalid");
 		    }
