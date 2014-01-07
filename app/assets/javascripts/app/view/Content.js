@@ -18,8 +18,8 @@ Ext.define('AM.view.Content', {
 			},
 			{
 				html : "Operation",
-				// xtype : 'operationProcessPanel'
-				xtype : 'container'
+				xtype : 'operationProcessPanel'
+				// xtype : 'container'
 			},
 			{
 				html : "Master",
