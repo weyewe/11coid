@@ -65,19 +65,7 @@ Ext.define("AM.controller.Master", {
 					action : 'index'
 				}
 				]
-			},
-			{ 
-				text:'Category', 
-				viewClass:'AM.view.master.Category', 
-				leaf:true, 
-				iconCls:'text',
-				conditions : [
-				{
-					controller : 'categories',
-					action : 'index'
-				}
-				]
-			},
+			}, 
 			{ 
 				text:'JobCode', 
 				viewClass:'AM.view.master.JobCode', 

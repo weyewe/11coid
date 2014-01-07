@@ -4,16 +4,18 @@ class Api::JobCodesController < Api::BaseApiController
     
     if params[:livesearch].present? 
       livesearch = "%#{params[:livesearch]}%"
-      @objects = JobCode.joins(:jobs).where{
+      @objects = JobCode.includes(:jobs).where{
         (
-          (name =~  livesearch )
+          (code =~  livesearch ) | 
+          (description =~ livesearch)
         )
         
       }.page(params[:page]).per(params[:limit]).order("id DESC")
       
-      @total = JobCode.where{
+      @total = JobCode.includes(:jobs).where{
         (
-          (name =~  livesearch )
+          (code =~  livesearch ) | 
+          (description =~ livesearch)
         )
       }.count
       
@@ -21,11 +23,10 @@ class Api::JobCodesController < Api::BaseApiController
       
     else
       puts "Inside the normal index"
-      @objects = JobCode.page(params[:page]).per(params[:limit]).order("id DESC")
-      @total = JobCode.count 
+      @objects = JobCode.includes(:jobs).page(params[:page]).per(params[:limit]).order("id DESC")
+      @total = JobCode.includes(:jobs).count 
     end
     
-    puts "============> Inside the job code\n"*10
     puts "Total job code: @total => #{@total}"
     puts "Total job code: @objects.count => #{@objects.count}"
     
@@ -67,14 +68,9 @@ class Api::JobCodesController < Api::BaseApiController
                         :job_codes => [
                           
                           :id 							=>  	@object.id                  ,
-                        	:name 			=>     @object.name   ,
-                        	:id_number 		=> 	  @object.id_number  ,
-                        	:address 				=> 	  @object.address      ,
-                        	:is_deceased			  =>   	@object.is_deceased     ,
-                        	:is_run_away		    =>   	@object.is_run_away     ,
-                        	:deceased_at       =>   	format_date_friendly( @object.deceased_at )   ,
-                        	:run_away_at       =>     format_date_friendly( @object.run_away_at )
-                        	
+                        	:code 			=>     @object.name   ,
+                        	:description 		=> 	  @object.id_number  ,
+                        	:total_job 				=> 	  @object.jobs.count      
                         ],
                         :total => JobCode.active_objects.count  } 
     else
@@ -128,13 +124,13 @@ class Api::JobCodesController < Api::BaseApiController
     # on PostGre SQL, it is ignoring lower case or upper case 
     
     if  selected_id.nil?
-      @objects = JobCode.where{ (name =~ query)   
+      @objects = JobCode.where{ (code =~ query)   
                               }.
                         page(params[:page]).
                         per(params[:limit]).
                         order("id DESC")
                         
-      @total = JobCode.where{ (name =~ query)  
+      @total = JobCode.where{ (code =~ query)  
                               }.count
     else
       @objects = JobCode.where{ (id.eq selected_id)  

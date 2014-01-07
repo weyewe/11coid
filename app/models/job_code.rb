@@ -53,6 +53,9 @@ class JobCode < ActiveRecord::Base
       self.errors.add(:generic_errors, "Sudah ada #{self.jobs.count} dengan code ini")
       return self 
     end
+    
+    self.destroy 
+    
   end 
   
   
