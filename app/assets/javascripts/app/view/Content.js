@@ -23,7 +23,8 @@ Ext.define('AM.view.Content', {
 			},
 			{
 				html : "Master",
-				xtype : 'container'
+				// xtype : 'container'
+				xtype : 'masterProcessPanel'
 			},
 			// {
 			// 	xtype : 'personalProcessPanel'

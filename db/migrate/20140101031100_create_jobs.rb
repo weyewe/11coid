@@ -2,8 +2,10 @@ class CreateJobs < ActiveRecord::Migration
   def change
     create_table :jobs do |t|
       t.integer :client_id
-      t.integer :category_id 
+      # t.integer :category_id 
       t.integer :user_id 
+      
+      t.integer :job_code_id 
       
       t.text :description 
        

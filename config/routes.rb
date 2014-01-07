@@ -8,8 +8,12 @@ EleveniaSheet::Application.routes.draw do
     put 'update_password' , :to => "passwords#update" , :as => :update_password
     
     
+    resources :app_users
+    resources :job_codes 
+    
     resources :jobs
     resources :drafts
+    
   end
 
 end
