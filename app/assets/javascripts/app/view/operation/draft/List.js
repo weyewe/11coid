@@ -1,8 +1,8 @@
-Ext.define('AM.view.master.jobcode.List' ,{
+Ext.define('AM.view.operation.draft.List' ,{
   	extend: 'Ext.grid.Panel',
-  	alias : 'widget.jobcodelist',
+  	alias : 'widget.draftlist',
 
-  	store: 'JobCodes', 
+  	store: 'Drafts', 
  
 
 	initComponent: function() {
@@ -13,7 +13,7 @@ Ext.define('AM.view.master.jobcode.List' ,{
 			
 			{	header: 'Code', dataIndex: 'code', flex: 1 },
 			{	header: 'Description', dataIndex: 'description', flex: 1 },  
-			{	header: 'Total Job', dataIndex: 'total_job', flex: 1 },
+			{	header: 'Total Draft', dataIndex: 'total_draft', flex: 1 },
 			 
 			
 		];
@@ -35,31 +35,11 @@ Ext.define('AM.view.master.jobcode.List' ,{
 			disabled: true
 		});
 		
-		this.searchField = new Ext.form.field.Text({
-			name: 'searchField',
-			hideLabel: true,
-			width: 200,
-			emptyText : "Search",
-			checkChangeBuffer: 300
-		});
-		
-		this.markAsDeceasedObjectButton = new Ext.Button({
-			text: 'Deceased',
-			action: 'markasdeceasedObject',
-			disabled: true
-		});
-		
-		this.markAsRunAwayObjectButton = new Ext.Button({
-			text: 'Run Away',
-			action: 'markasrunawayObject',
-			disabled: true
-		});
+	  
 
 
 
-		this.tbar = [this.addObjectButton, this.editObjectButton, this.deleteObjectButton ,
-		 				'-',
-						this.searchField 
+		this.tbar = [this.addObjectButton, this.editObjectButton, this.deleteObjectButton  
 						
 		];
 		this.bbar = Ext.create("Ext.PagingToolbar", {
@@ -81,15 +61,11 @@ Ext.define('AM.view.master.jobcode.List' ,{
 	enableRecordButtons: function() {
 		this.editObjectButton.enable();
 		this.deleteObjectButton.enable();
-		
-		this.markAsDeceasedObjectButton.enable();
-		this.markAsRunAwayObjectButton.enable();
+		 
 	},
 
 	disableRecordButtons: function() {
 		this.editObjectButton.disable();
-		this.deleteObjectButton.disable();
-		this.markAsDeceasedObjectButton.disable();
-		this.markAsRunAwayObjectButton.disable();
+		this.deleteObjectButton.disable(); 
 	}
 });

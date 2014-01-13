@@ -30,13 +30,13 @@ ActiveRecord::Schema.define(version: 20140107002153) do
 
   create_table "drafts", force: true do |t|
     t.integer  "job_id"
-    t.integer  "user_id"
-    t.integer  "category_id"
     t.datetime "dispatched_at"
     t.text     "description"
     t.integer  "status"
     t.boolean  "is_finished",      default: false
     t.datetime "finished_at"
+    t.boolean  "is_submitted",     default: false
+    t.datetime "submitted_at"
     t.boolean  "is_cleared",       default: false
     t.datetime "cleared_at"
     t.integer  "clearance_status"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20140107002153) do
     t.integer  "client_id"
     t.integer  "user_id"
     t.integer  "job_code_id"
+    t.string   "code"
     t.text     "description"
     t.datetime "dispatched_at"
     t.boolean  "is_finished",   default: false

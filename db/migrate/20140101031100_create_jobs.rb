@@ -7,12 +7,16 @@ class CreateJobs < ActiveRecord::Migration
       
       t.integer :job_code_id 
       
+      t.string :code 
+      
       t.text :description 
        
       t.datetime :dispatched_at 
       
       t.boolean :is_finished, :default => false 
       t.datetime :finished_at 
+      
+      
       
       t.timestamps
     end

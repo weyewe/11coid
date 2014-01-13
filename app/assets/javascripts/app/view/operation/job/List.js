@@ -1,8 +1,8 @@
-Ext.define('AM.view.master.jobcode.List' ,{
+Ext.define('AM.view.operation.job.List' ,{
   	extend: 'Ext.grid.Panel',
-  	alias : 'widget.jobcodelist',
+  	alias : 'widget.joblist',
 
-  	store: 'JobCodes', 
+  	store: 'Jobs', 
  
 
 	initComponent: function() {

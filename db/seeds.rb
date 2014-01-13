@@ -56,17 +56,17 @@ data_entry_role = Role.create!(
   admin = User.create_main_user(  :name => "Admin", :email => "admin@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
   admin.set_as_main_user
   
-  admin = User.create_main_user(  :name => "Admin", :email => "admin2@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
+  admin = User.create_main_user(  :name => "Admin 2", :email => "admin2@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
   admin.set_as_main_user
   
-  admin = User.create_main_user(  :name => "Admin", :email => "admin3@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
+  admin = User.create_main_user(  :name => "Admin 3", :email => "admin3@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
   admin.set_as_main_user
   
-  admin = User.create_main_user(  :name => "Admin", :email => "admin4@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
+  admin = User.create_main_user(  :name => "Admin 4", :email => "admin4@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
   admin.set_as_main_user
 
 
-  data_entry1 = User.create_object(:name => "Data Entry", :email => "data_entry1@gmail.com", 
+  data_entry1 = User.create_object(:name => "Data Entry 1", :email => "data_entry1@gmail.com", 
                 :password => 'willy1234', 
                 :password_confirmation => 'willy1234',
                 :role_id => data_entry_role.id )
@@ -75,7 +75,7 @@ data_entry_role = Role.create!(
   data_entry1.password_confirmation = 'willy1234'
   data_entry1.save
 
-  data_entry2 = User.create_object(:name => "Data Entry", :email => "data_entry2@gmail.com", 
+  data_entry2 = User.create_object(:name => "Data Entry 2", :email => "data_entry2@gmail.com", 
                 :password => 'willy1234', 
                 :password_confirmation => 'willy1234',
                 :role_id => data_entry_role.id )
@@ -92,7 +92,24 @@ data_entry_role = Role.create!(
   user_array = [admin, data_entry1, data_entry2]
  
   
+  
+  JobCode.create_object(
+    :code => "EMC2001",
+    :description => "Top banner"
+  )
 
+
+  JobCode.create_object(
+    :code => "EMC3002",
+    :description => "Bottom banner"
+  )
+  
+  JobCode.create_object(
+    :code => "EMC1001",
+    :description => "Side banner"
+  )
+  
+  
   def make_date(*args)
     now = DateTime.now  
   
