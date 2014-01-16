@@ -93,21 +93,31 @@ data_entry_role = Role.create!(
  
   
   
-  JobCode.create_object(
+  job_code_1 = JobCode.create_object(
     :code => "EMC2001",
     :description => "Top banner"
   )
 
 
-  JobCode.create_object(
+  job_code_2 = JobCode.create_object(
     :code => "EMC3002",
     :description => "Bottom banner"
   )
   
-  JobCode.create_object(
+  job_code_3 = JobCode.create_object(
     :code => "EMC1001",
     :description => "Side banner"
   )
+  
+  
+  # make job
+  Job.create_object(
+    :user_id => data_entry2.id ,
+    :job_code_id =>  job_code_2.id ,
+    :description => "Test job 1",
+    :dispatched_at => DateTime.now
+  )
+  
   
   
   def make_date(*args)

@@ -32,6 +32,8 @@ class Api::JobsController < Api::BaseApiController
 
   def create
     # @object = Job.new(params[:job])
+    
+    params[:job][:dispatched_at] =  parse_datetime_from_client_booking( params[:job][:dispatched_at] )
  
     @object = Job.create_object( params[:job] )
     if @object.errors.size == 0 
@@ -40,7 +42,8 @@ class Api::JobsController < Api::BaseApiController
                           
                             :id 							=>  	@object.id                  ,
                           	:code 			=>     @object.code   ,
-                          	:description 		=> 	  @object.description   
+                          	:description 		=> 	  @object.description   ,
+                          	:dispatched_at => format_datetime_friendly(@object.dispatched_at) 
                           ] , 
                         :total => Job.active_objects.count }  
     else
@@ -66,7 +69,8 @@ class Api::JobsController < Api::BaseApiController
                           :id 							=>  	@object.id                  ,
                         	:code 			=>     @object.code   ,
                         	:description 		=> 	  @object.description  ,
-                        	:total_job 				=> 	  @object.jobs.count      
+                        	:total_job 				=> 	  @object.jobs.count   ,
+                        	:dispatched_at => format_datetime_friendly(@object.dispatched_at)   
                         ],
                         :total => Job.active_objects.count  } 
     else

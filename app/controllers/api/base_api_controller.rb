@@ -104,14 +104,14 @@ class Api::BaseApiController < ApplicationController
   end
   
   def parse_datetime_from_client_booking( datetime_string)
+    return nil if not datetime_string.present? 
     date = datetime_string.split(" ").first
     time = datetime_string.split(" ").last  
     
     date_array = date.split('-').map{|x| x.to_i}
     time_array = time.split(':').map{|x| x.to_i}
     
-    puts "The date_array: #{date_array}"
-    puts "The time_array : #{time_array}"
+     
     
    
     datetime = DateTime.new( date_array[0], 

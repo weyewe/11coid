@@ -78,46 +78,26 @@ Ext.define('AM.view.operation.draft.Form', {
 	        fieldLabel: 'id'
 	      },
 				{
-					fieldLabel: 'User',
-					xtype: 'combo',
-					queryMode: 'remote',
-					forceSelection: true, 
-					displayField : 'user_name',
-					valueField : 'user_id',
-					pageSize : 5,
-					minChars : 1, 
-					allowBlank : false, 
-					triggerAction: 'all',
-					store : remoteUserJsonStore , 
-					listConfig : {
-						getInnerTpl: function(){
-							return  	'<div data-qtip="{user_name}">' +  
-													'<div class="combo-name">{user_name}</div>' + 
-							 					'</div>';
-						}
-					},
-					name : 'user_id' 
+	        xtype: 'hidden',
+	        name : 'job_id',
+	        fieldLabel: 'job_id'
+	      },
+				{
+					xtype: 'displayfield',
+					fieldLabel: 'Job:',
+					name: 'job_code' ,
+					value : '10' 
 				},
 				{
-					fieldLabel: 'Draft Code',
-					xtype: 'combo',
-					queryMode: 'remote',
-					forceSelection: true, 
-					displayField : 'draft_code_code',
-					valueField : 'draft_code_id',
-					pageSize : 5,
-					minChars : 1, 
-					allowBlank : false, 
-					triggerAction: 'all',
-					store : remoteDraftCodeJsonStore , 
-					listConfig : {
-						getInnerTpl: function(){
-							return  	'<div data-qtip="{draft_code_code}">' +  
-													'<div class="combo-name">{draft_code_code}</div>' + 
-							 					'</div>';
-						}
+	        xtype: 'customdatetimefield',
+	        name : 'dispatched_at',
+	        fieldLabel: 'Mulai',
+					dateCfg : {
+						format: 'Y-m-d',
 					},
-					name : 'draft_code_id' 
+					timeCfg : {
+						increment : 15
+					}
 				},
 				{
 					xtype: 'textarea',
@@ -185,6 +165,11 @@ Ext.define('AM.view.operation.draft.Form', {
 		// console.log( "glp_id: " + record.get("group_loan_product_id") );
 		me.setSelectedDraftCode( record.get("draft_code_id")  ) ;
 		me.setSelectedUser( record.get("user_id")  ) ;
-	}
+	},
+	
+	setParentData: function( record ){
+		this.down('form').getForm().findField('job_code').setValue(record.get('code'));
+		this.down('form').getForm().findField('job_id').setValue(record.get('id')); 
+	},
 });
 

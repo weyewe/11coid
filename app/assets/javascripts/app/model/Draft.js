@@ -4,11 +4,25 @@ Ext.define('AM.model.Draft', {
     	{ name: 'id', type: 'int' },
     	{ name: 'job_id', type: 'int' },
 			{ name: 'job_code', type: 'string' }  ,
-			
-			{ name: 'user_name', type: 'string' } ,
-			{ name: 'user_id', type: 'int' } ,
+			 
 			
 			{ name: 'description', type: 'string' } ,
+			
+			{ name: 'code', type: 'string' } ,
+			
+			{ name: 'dispatched_at', type: 'string' } ,
+			
+			{ name: 'is_submitted', type: 'boolean' } ,
+			{ name: 'submitted_at', type: 'string' } ,
+		 
+			{ name: 'is_finished', type: 'boolean' } ,
+			{ name: 'finished_at', type: 'string' } ,
+			
+			{ name: 'is_cleared', type: 'boolean' } ,
+			{ name: 'cleared_at', type: 'string' } ,
+			{ name: 'clearance_status', type: 'int' } ,
+			{ name: 'clearance_status_text', type: 'string' } ,
+			
   	],
 
   	idProperty: 'id' ,

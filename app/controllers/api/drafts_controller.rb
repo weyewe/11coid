@@ -1,23 +1,38 @@
 class Api::DraftsController < Api::BaseApiController
   
   def index
-    @objects = Draft.includes(:job, :user).page(params[:page]).per(params[:limit]).order("id DESC")
-    @total = Draft.count  
+    
     # render :json => { :group_loans => @objects , :total => @total , :success => true }
+ 
+    if params[:livesearch].present? 
+      livesearch = "%#{params[:livesearch]}%"
+      @objects = Draft.where{
+        (
+          (name =~  livesearch )
+        )
+        
+      }.page(params[:page]).per(params[:limit]).order("id DESC")
+      
+      @total = Draft.where{ 
+        (
+          (name =~  livesearch )
+        )
+      }.count
+      
+      # calendar
+      
+    elsif params[:parent_id].present?
+      @objects = Draft.includes(:job ).where(:job_id => params[:parent_id]).page(params[:page]).per(params[:limit]).order("id DESC")
+      @total = Draft.count
+    else
+      @objects = []
+      @total = 0 
+    end
+    
+    
   end
 
   def create
-    # @object = Draft.new(params[:draft])
-    #  
-    #  
-    # json.job_id          object.job.id
-    # json.job_code      object.job.code
-    # json.user_name        object.user.name 
-    # json.user_id       object.user.id
-    # 
-    # json.description object.description
-    # 
-    # 
     @object = Draft.create_object( params[:draft] )
     if @object.errors.size == 0 
       render :json => { :success => true, 
@@ -26,9 +41,13 @@ class Api::DraftsController < Api::BaseApiController
                             :id 							=>  	@object.id  ,
                           	:job_id 			=>     @object.job.id   ,
                           	:job_code 		=> 	  @object.job.code  ,
-                          	:user_name  => @object.user.name      ,
-                          	:user_id  => @object.user.id          , 
-                          	:description => @object.description    
+                          	:description => @object.description   ,
+                          	:dispatched_at => format_datetime_friendly(@object.dispatched_at)   ,
+                          	:finished_at => format_datetime_friendly(@object.finished_at)   ,
+                          	:submitted_at => format_datetime_friendly(@object.submitted_at)   , 
+                          	:cleared_at => format_datetime_friendly(@object.cleared_at)   ,
+                          	:clearance_status => @object.clearance_status,
+                          	:clearance_status_text => @object.clearance_status_text
                           ] , 
                         :total => Draft.active_objects.count }  
     else
@@ -45,7 +64,23 @@ class Api::DraftsController < Api::BaseApiController
 
   def update
     @object = Draft.find(params[:id])  
-    @object.update_object( params[:draft] ) 
+    
+    
+    params[:draft][:dispatched_at] =  parse_datetime_from_client_booking( params[:draft][:dispatched_at] )
+    params[:draft][:finished_at] =  parse_datetime_from_client_booking( params[:draft][:finished_at] )
+    params[:draft][:submitted_at] =  parse_datetime_from_client_booking( params[:draft][:submitted_at] )
+    params[:draft][:cleared_at] =  parse_datetime_from_client_booking( params[:draft][:cleared_at] )
+    
+    if params[:update_finished_at].present?
+      @object.finish( params[:draft][:finished_at])
+    elsif params[:update_submitted_at].present?
+      @object.submit( params[:draft][:submitted_at])
+    elsif params[:update_cleared_at].present?
+      @object.clear( params[:draft][:cleared_at], params[:draft][:clearance_status])
+    else
+      @object.update_object( params[:draft] ) 
+    end
+   
      
     if @object.errors.size == 0 
       render :json => { :success => true,   
@@ -54,9 +89,13 @@ class Api::DraftsController < Api::BaseApiController
                           :id 							=>  	@object.id  ,
                         	:job_id 			=>     @object.job.id   ,
                         	:job_code 		=> 	  @object.job.code  ,
-                        	:user_name  => @object.user.name      ,
-                        	:user_id  => @object.user.id          , 
-                        	:description => @object.description   
+                        	:description => @object.description ,
+                        	:dispatched_at => format_datetime_friendly(@object.dispatched_at)   ,
+                        	:finished_at => format_datetime_friendly(@object.finished_at)   ,
+                        	:submitted_at => format_datetime_friendly(@object.submitted_at)   , 
+                        	:cleared_at => format_datetime_friendly(@object.cleared_at)  ,
+                        	:clearance_status => @object.clearance_status,
+                        	:clearance_status_text => @object.clearance_status_text 
                         ],
                         :total => Draft.active_objects.count  } 
     else

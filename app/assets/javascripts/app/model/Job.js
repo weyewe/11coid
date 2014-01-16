@@ -9,6 +9,11 @@ Ext.define('AM.model.Job', {
 			{ name: 'description', type: 'string' } ,
 			
 			{ name: 'code', type: 'string' } ,
+			
+			{ name: 'dispatched_at', type: 'string' } ,
+		 
+			{ name: 'is_finished', type: 'boolean' } ,
+			{ name: 'finished_at', type: 'string' } ,
   	],
 
 	 

@@ -12,6 +12,8 @@ json.jobs @objects do |object|
 	
 	json.description object.description
 	json.code object.code
+	
+	json.dispatched_at format_datetime_friendly(object.dispatched_at) 
 end
 
 

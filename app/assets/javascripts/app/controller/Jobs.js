@@ -5,7 +5,10 @@ Ext.define('AM.controller.Jobs', {
   models: ['Job'],
 
   views: [
-	'operation.draft.List',
+		'operation.draft.List',
+		'operation.draft.Form',
+		'operation.draft.FinishDraftForm',
+	
     'operation.job.List',
 		'operation.job.Form',
 		'operation.Job',
@@ -52,28 +55,55 @@ Ext.define('AM.controller.Jobs', {
 			'jobform button[action=save]': {
         click: this.updateObject
       },
- 
-      'operationjobList button[action=collectObject]': {
-        click: this.collectObject
-      },
-      'operationjobList button[action=confirmObject]': {
-        click: this.confirmObject
-      },
+  
       
 			'jobProcess operationjobList textfield[name=searchField]': {
         change: this.liveSearch
       },
+ 
+			
+			'draftlist button[action=addObject]': {
+        click: this.addChildObject
+      },
+			'draftlist button[action=editObject]': {
+        click: this.editChildObject
+      },
 
-			'operationjobList button[action=collectObject]': {
-        click: this.collectObject
-			}	,
-		 
-			'operationjobList button[action=confirmObject]': {
-        click: this.confirmObject
-			}	,
+			'draftform button[action=save]': {
+        click: this.updateChildObject
+      },
+			'draftlist button[action=deleteObject]': {
+        click: this.deleteChildObject
+      },
+
+			'draftlist button[action=finishObject]': {
+        click: this.finishChildObject
+      },
+
+			'finishdraftform button[action=save]' : {
+				click : this.executeFinishDraft
+			},
+			
+			'draftlist button[action=submitObject]': {
+			        click: this.submitChildObject
+			      },
+			
+			'submitdraftform button[action=save]' : {
+				click : this.executeSubmitDraft
+			},
+			
+			'draftlist button[action=clearObject]': {
+			        click: this.clearChildObject
+			      },
+			
+			'cleardraftform button[action=save]' : {
+				click : this.executeClearDraft
+			},
 			 
     });
   },
+
+	
 
 	onDestroy: function(){
 		// console.log("on Destroy the savings_entries list ");
@@ -103,10 +133,22 @@ Ext.define('AM.controller.Jobs', {
 	},
 	
 	addObject: function() {
-		console.log("addObject function");
     var view = Ext.widget('jobform');
     view.show();
   },
+
+	addChildObject: function(){
+		// console.log("Adding child object");
+		// var view = Ext.widget('draftform');
+		//     view.show();
+
+		var parentObject  = this.getParentList().getSelectedObject();
+		if( parentObject) {
+			var view = Ext.widget('draftform');
+			view.show();
+			view.setParentData(parentObject);
+		}
+	},
 
 	updateObject: function(button) {
     var win = button.up('window');
@@ -164,6 +206,95 @@ Ext.define('AM.controller.Jobs', {
 				}
 			});
 		} 
+  },
+
+	updateChildObject: function(button) {
+    var win = button.up('window');
+    var form = win.down('form');
+
+    var store = this.getDraftsStore();
+    var record = form.getRecord();
+    var values = form.getValues();
+
+		
+		if( record ){
+			record.set( values );
+			 
+			form.setLoading(true);
+			record.save({
+				success : function(record){
+					form.setLoading(false);
+					//  since the grid is backed by store, if store changes, it will be updated
+					store.load();
+					win.close();
+				},
+				failure : function(record,op ){
+					form.setLoading(false);
+					var message  = op.request.scope.reader.jsonData["message"];
+					var errors = message['errors'];
+					form.getForm().markInvalid(errors);
+					this.reject();
+				}
+			});
+				
+			 
+		}else{
+			//  no record at all  => gonna create the new one 
+			var me  = this; 
+			var newObject = new AM.model.Draft( values ) ;
+			
+			// learnt from here
+			// http://www.sencha.com/forum/showthread.php?137580-ExtJS-4-Sync-and-success-failure-processing
+			// form.mask("Loading....."); 
+			form.setLoading(true);
+			newObject.save({
+				success: function(record){
+					//  since the grid is backed by store, if store changes, it will be updated
+					store.load();
+					form.setLoading(false);
+					win.close();
+					
+				},
+				failure: function( record, op){
+					form.setLoading(false);
+					var message  = op.request.scope.reader.jsonData["message"];
+					var errors = message['errors'];
+					form.getForm().markInvalid(errors);
+					this.reject();
+				}
+			});
+		} 
+  },
+
+
+	editChildObject: function() {
+		var me = this; 
+    var record = me.getList().getSelectedObject();
+		var parentObject  = me.getParentList().getSelectedObject();
+ 
+
+		
+		if( parentObject) {
+			var view = Ext.widget('draftform');
+			view.show();
+			view.down('form').loadRecord(record);
+			view.setParentData(parentObject);
+		}
+  },
+
+	
+
+	deleteChildObject: function() {
+    var record = this.getList().getSelectedObject();
+
+    if (record) {
+      var store = this.getDraftsStore();
+      store.remove(record);
+      store.sync();
+// to do refresh programmatically
+			this.getList().query('pagingtoolbar')[0].doRefresh();
+    }
+
   },
 
   
@@ -344,6 +475,236 @@ Ext.define('AM.controller.Jobs', {
 		        //do something whether the load succeeded or failed
 		    }
 		});
+	},
+	
+	
+/*
+	Change draft status
+*/
+
+	finishChildObject : function(){
+		
+		var me = this; 
+    var record = me.getList().getSelectedObject();
+		var parentObject  = me.getParentList().getSelectedObject();
+ 
+		if( parentObject && record) {
+			var view = Ext.widget('finishdraftform');
+			view.show();
+			view.down('form').loadRecord(record);
+			// view.setParentData(parentObject);
+		}
+	},
+	
+	executeFinishDraft : function(button){
+		var me = this; 
+		var win = button.up('window');
+    var form = win.down('form');
+
+		// var parentRecord = this.getParentList().getSelectedObject();
+	
+    var store = this.getDraftsStore();
+		var record = this.getList().getSelectedObject();
+    // var record = form.getRecord();
+    var values = form.getValues();
+
+		// console.log("The record");
+		// console.log( record ) ;
+		// 
+		// console.log("The values");
+		// console.log( values ) ;
+
+		form.setLoading( true ) ;
+ 
+		
+		if(record){
+			var rec_id = record.get("id");
+			record.set( values );
+			 
+			// form.query('checkbox').forEach(function(checkbox){
+			// 	record.set( checkbox['name']  ,checkbox['checked'] ) ;
+			// });
+			// 
+			form.setLoading(true);
+			record.save({
+				params : {
+					update_finished_at: true 
+				},
+				success : function(record){
+					// console.log("SUccess update");
+					form.setLoading(false);
+					//  since the grid is backed by store, if store changes, it will be updated
+					// form.fireEvent('item_quantity_changed');
+					store.load({
+						params: {
+							draft_id : rec_id
+						}
+					});
+					
+					win.close();
+				},
+				failure : function(record,op ){
+					// console.log("Fail update");
+					form.setLoading(false);
+					var message  = op.request.scope.reader.jsonData["message"];
+					var errors = message['errors'];
+					form.getForm().markInvalid(errors);
+					
+					this.reject(); 
+				}
+			});
+		}
+	},
+	
+	
+	submitChildObject : function(){
+		
+		var me = this; 
+    var record = me.getList().getSelectedObject();
+		var parentObject  = me.getParentList().getSelectedObject();
+ 
+		if( parentObject && record) {
+			var view = Ext.widget('submitdraftform');
+			view.show();
+			view.down('form').loadRecord(record);
+			// view.setParentData(parentObject);
+		}
+	},
+	
+	executeSubmitDraft : function(button){
+		var me = this; 
+		var win = button.up('window');
+    var form = win.down('form');
+
+		// var parentRecord = this.getParentList().getSelectedObject();
+	
+    var store = this.getDraftsStore();
+		var record = this.getList().getSelectedObject();
+    // var record = form.getRecord();
+    var values = form.getValues();
+
+		// console.log("The record");
+		// console.log( record ) ;
+		// 
+		// console.log("The values");
+		// console.log( values ) ;
+
+		form.setLoading( true ) ;
+ 
+		
+		if(record){
+			var rec_id = record.get("id");
+			record.set( values );
+			 
+			// form.query('checkbox').forEach(function(checkbox){
+			// 	record.set( checkbox['name']  ,checkbox['checked'] ) ;
+			// });
+			// 
+			form.setLoading(true);
+			record.save({
+				params : {
+					update_submitted_at: true 
+				},
+				success : function(record){
+					// console.log("SUccess update");
+					form.setLoading(false);
+					//  since the grid is backed by store, if store changes, it will be updated
+					// form.fireEvent('item_quantity_changed');
+					store.load({
+						params: {
+							draft_id : rec_id
+						}
+					});
+					
+					win.close();
+				},
+				failure : function(record,op ){
+					// console.log("Fail update");
+					form.setLoading(false);
+					var message  = op.request.scope.reader.jsonData["message"];
+					var errors = message['errors'];
+					form.getForm().markInvalid(errors);
+					
+					this.reject(); 
+				}
+			});
+		}
+	},
+	
+	
+	
+	clearChildObject : function(){
+		
+		var me = this; 
+    var record = me.getList().getSelectedObject();
+		var parentObject  = me.getParentList().getSelectedObject();
+ 
+		if( parentObject && record) {
+			var view = Ext.widget('cleardraftform');
+			view.show();
+			view.down('form').loadRecord(record);
+			// view.setParentData(parentObject);
+		}
+	},
+	
+	executeClearDraft : function(button){
+		var me = this; 
+		var win = button.up('window');
+    var form = win.down('form');
+
+		// var parentRecord = this.getParentList().getSelectedObject();
+	
+    var store = this.getDraftsStore();
+		var record = this.getList().getSelectedObject();
+    // var record = form.getRecord();
+    var values = form.getValues();
+
+		// console.log("The record");
+		// console.log( record ) ;
+		// 
+		// console.log("The values");
+		// console.log( values ) ;
+
+		form.setLoading( true ) ;
+ 
+		
+		if(record){
+			var rec_id = record.get("id");
+			record.set( values );
+			 
+			// form.query('checkbox').forEach(function(checkbox){
+			// 	record.set( checkbox['name']  ,checkbox['checked'] ) ;
+			// });
+			// 
+			form.setLoading(true);
+			record.save({
+				params : {
+					update_cleared_at: true 
+				},
+				success : function(record){
+					// console.log("SUccess update");
+					form.setLoading(false);
+					//  since the grid is backed by store, if store changes, it will be updated
+					// form.fireEvent('item_quantity_changed');
+					store.load({
+						params: {
+							draft_id : rec_id
+						}
+					});
+					
+					win.close();
+				},
+				failure : function(record,op ){
+					// console.log("Fail update");
+					form.setLoading(false);
+					var message  = op.request.scope.reader.jsonData["message"];
+					var errors = message['errors'];
+					form.getForm().markInvalid(errors);
+					
+					this.reject(); 
+				}
+			});
+		}
 	},
 
 });

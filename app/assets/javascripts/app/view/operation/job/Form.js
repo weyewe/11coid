@@ -120,6 +120,17 @@ Ext.define('AM.view.operation.job.Form', {
 					name : 'job_code_id' 
 				},
 				{
+	        xtype: 'customdatetimefield',
+	        name : 'dispatched_at',
+	        fieldLabel: ' Waktu Mulai kerja',
+					dateCfg : {
+						format: 'Y-m-d',
+					},
+					timeCfg : {
+						increment : 30
+					}
+				},
+				{
 					xtype: 'textarea',
 					name : 'description',
 					fieldLabel: 'Description'

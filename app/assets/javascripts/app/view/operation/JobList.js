@@ -15,6 +15,8 @@ Ext.define('AM.view.operation.JobList' ,{
 				tpl : '<b>{code}</b>' + '<br />' + 
 							'Banner Code: <b>{job_code_code}</b>' + '<br />'  + 
 							'Employee: <b>{user_name}</b>'+ '<br />'  + '<br />'  +
+							
+							'Mulai: <b>{dispatched_at }</b>'+ '<br />'  + '<br />'  +
 							'{description}'
 			}, 
 		];

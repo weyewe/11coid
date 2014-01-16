@@ -16,6 +16,9 @@ class CreateJobs < ActiveRecord::Migration
       t.boolean :is_finished, :default => false 
       t.datetime :finished_at 
       
+      t.boolean :is_submitted, :default => false
+      t.datetime :submitted_at 
+      
       
       
       t.timestamps

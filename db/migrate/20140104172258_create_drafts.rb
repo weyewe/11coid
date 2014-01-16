@@ -11,6 +11,8 @@ class CreateDrafts < ActiveRecord::Migration
       
       t.integer :status # major or minor? REVISION_STATUS
       
+      t.string :code
+      
       
       
       # means: submitted 

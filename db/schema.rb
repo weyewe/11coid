@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20140107002153) do
     t.datetime "dispatched_at"
     t.text     "description"
     t.integer  "status"
+    t.string   "code"
     t.boolean  "is_finished",      default: false
     t.datetime "finished_at"
     t.boolean  "is_submitted",     default: false
@@ -60,6 +61,8 @@ ActiveRecord::Schema.define(version: 20140107002153) do
     t.datetime "dispatched_at"
     t.boolean  "is_finished",   default: false
     t.datetime "finished_at"
+    t.boolean  "is_submitted",  default: false
+    t.datetime "submitted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

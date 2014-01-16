@@ -12,8 +12,12 @@ Ext.define('AM.view.operation.draft.List' ,{
 			
 			
 			{	header: 'Code', dataIndex: 'code', flex: 1 },
+			{	header: 'Dispatch', dataIndex: 'dispatched_at', flex: 1 },
 			{	header: 'Description', dataIndex: 'description', flex: 1 },  
-			{	header: 'Total Draft', dataIndex: 'total_draft', flex: 1 },
+			{	header: 'Finish', dataIndex: 'finished_at', flex: 1 },
+			{	header: 'Submit', dataIndex: 'submitted_at', flex: 1 },
+			{	header: 'Clear', dataIndex: 'cleared_at', flex: 1 },
+			{	header: 'Status', dataIndex: 'clearance_status_text', flex: 1 },
 			 
 			
 		];
@@ -35,11 +39,36 @@ Ext.define('AM.view.operation.draft.List' ,{
 			disabled: true
 		});
 		
+		this.finishObjectButton = new Ext.Button({
+			text: 'Finish',
+			action: 'finishObject',
+			disabled: true
+		});
+		
+		this.submitObjectButton = new Ext.Button({
+			text: 'Submit',
+			action: 'submitObject',
+			disabled: true
+		});
+		
+		this.clearObjectButton = new Ext.Button({
+			text: 'Clear',
+			action: 'clearObject',
+			disabled: true
+		});
+		
+		
 	  
 
 
 
-		this.tbar = [this.addObjectButton, this.editObjectButton, this.deleteObjectButton  
+		this.tbar = [this.addObjectButton, this.editObjectButton, this.deleteObjectButton,
+		  		'->',
+					this.finishObjectButton,
+					'-',
+					this.submitObjectButton,
+					'-',
+					this.clearObjectButton,
 						
 		];
 		this.bbar = Ext.create("Ext.PagingToolbar", {
@@ -61,11 +90,20 @@ Ext.define('AM.view.operation.draft.List' ,{
 	enableRecordButtons: function() {
 		this.editObjectButton.enable();
 		this.deleteObjectButton.enable();
-		 
+		this.finishObjectButton.enable(); 
+		this.submitObjectButton.enable(); 
+		this.clearObjectButton.enable(); 
+		
+		
 	},
 
 	disableRecordButtons: function() {
 		this.editObjectButton.disable();
 		this.deleteObjectButton.disable(); 
+		this.finishObjectButton.disable();
+		
+		this.submitObjectButton.disable();
+		this.clearObjectButton.enable(); 
+		
 	}
 });
