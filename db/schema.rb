@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 20140107002153) do
     t.boolean  "is_deleted",             default: false
     t.boolean  "is_main_user",           default: false
     t.string   "authentication_token"
+    t.integer  "job_status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

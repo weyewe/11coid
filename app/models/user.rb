@@ -48,6 +48,8 @@ class User < ActiveRecord::Base
     new_user.role_id = admin_role.id 
     new_user.is_main_user = true
     
+    new_user.job_status = params[:job_status]
+    
     new_user.save 
   
     return new_user 
@@ -67,6 +69,14 @@ class User < ActiveRecord::Base
     
   end
   
+  def self.job_status_valid?(job_status)
+    job_status.present? and 
+    [
+      USER_JOB_STATUS[:worker],
+      USER_JOB_STATUS[:observer]
+      ].include?( job_status.to_i)
+  end
+  
   def User.create_object(params)
     # only used in seeds.rb => we need to assign pre-determined password
     
@@ -79,6 +89,13 @@ class User < ActiveRecord::Base
     
     new_object.password              = password
     new_object.password_confirmation = password 
+    
+    new_object.job_status   = params[:job_status]
+    
+    if not self.job_status_valid?( params[:job_status])
+      new_object.errors.add(:job_status, "Job Status tidak valid")
+      return new_object 
+    end
     
     new_object.save
 
@@ -97,6 +114,12 @@ class User < ActiveRecord::Base
     
     self.name                  = params[:name]
     self.email                 = params[:email] 
+    self.job_status   = params[:job_status]
+    
+    if not self.class.job_status_valid?( params[:job_status])
+      self.errors.add(:job_status, "Job Status tidak valid")
+      return self 
+    end
     
     
     if  self.is_main_user == true  
@@ -138,6 +161,16 @@ class User < ActiveRecord::Base
     self.role_id = admin_role.id 
     self.is_main_user = true 
     self.save 
+  end
+  
+  def job_status_text
+    if  self.job_status == USER_JOB_STATUS[:observer]
+      return "Observer"
+    elsif self.job_status == USER_JOB_STATUS[:worker]
+      return "Worker"
+    end
+    
+    return ""
   end
   
   private

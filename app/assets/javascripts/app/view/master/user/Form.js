@@ -12,6 +12,21 @@ Ext.define('AM.view.master.user.Form', {
 	
   initComponent: function() {
 	
+	
+		var localJsonStoreUserCase = Ext.create(Ext.data.Store, {
+			type : 'array',
+			storeId : 'user_status_search',
+			fields	: [ 
+				{ name : "job_status"}, 
+				{ name : "job_status_text"}  
+			], 
+			data : [
+				{ job_status : 1, job_status_text : "Observer"},
+				{ job_status : 2, job_status_text : "Worker"}
+			] 
+		});
+		
+		
 		var remoteJsonStore = Ext.create(Ext.data.JsonStore, {
 			storeId : 'role_search',
 			fields	: [
@@ -53,11 +68,32 @@ Ext.define('AM.view.master.user.Form', {
 	      },{
 	        xtype: 'textfield',
 	        name : 'name',
-	        fieldLabel: ' Name'
+	        fieldLabel: ' Name anda'
 	      },{
 					xtype: 'textfield',
 					name : 'email',
 					fieldLabel: 'Email'
+				},
+				{
+					fieldLabel: 'Job Status',
+					xtype: 'combo',
+					queryMode: 'remote',
+					forceSelection: true, 
+					displayField : 'job_status_text',
+					valueField : 'job_status',
+					pageSize : 5,
+					minChars : 1, 
+					allowBlank : false, 
+					triggerAction: 'all',
+					store : localJsonStoreUserCase , 
+					listConfig : {
+						getInnerTpl: function(){
+							return  	'<div data-qtip="{job_status_text}">' +  
+													'<div class="combo-name">{job_status_text}</div>' +  
+							 					'</div>';
+						}
+					},
+					name : 'job_status' 
 				},
 				{
 					fieldLabel: 'Role',

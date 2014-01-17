@@ -48,7 +48,7 @@ Ext.define("AM.controller.Operation", {
 	 
 
 	setupFolder : {
-		text 			: "Activities", 
+		text 			: "Management", 
 		viewClass : '',
 		iconCls		: 'text-folder', 
     expanded	: true,
@@ -67,8 +67,8 @@ Ext.define("AM.controller.Operation", {
 				]
 			}, 
 			{ 
-				text:'WorkRequest', 
-				viewClass:'AM.view.operation.WorkRequest', 
+				text:'EmployeeLoad', 
+				viewClass:'AM.view.operation.EmployeeLoad', 
 				leaf:true, 
 				iconCls:'text',
 				conditions : [

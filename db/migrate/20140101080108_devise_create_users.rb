@@ -39,6 +39,8 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
 
       t.string :authentication_token
+      
+      t.integer :job_status
 
 
 

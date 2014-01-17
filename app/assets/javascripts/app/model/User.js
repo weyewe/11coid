@@ -3,7 +3,12 @@ Ext.define('AM.model.User', {
   	fields: [
     	{ name: 'id', type: 'int' },
 			{ name: 'role_id', type: 'int' },
+			{ name: 'role_name', type: 'string' },
+			
     	{ name: 'name', type: 'string' } ,
+
+			{ name: 'job_status', type: 'int' } ,
+			{ name: 'job_status_text', type: 'string' } ,
 			'email' 
   	],
 

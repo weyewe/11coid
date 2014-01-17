@@ -53,20 +53,20 @@ data_entry_role = Role.create!(
   admin.set_as_main_user
 =end
 
-  admin = User.create_main_user(  :name => "Admin", :email => "admin@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
+  admin = User.create_main_user(:job_status => USER_JOB_STATUS[:observer],  :name => "Admin", :email => "admin@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
   admin.set_as_main_user
   
-  admin = User.create_main_user(  :name => "Admin 2", :email => "admin2@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
+  admin = User.create_main_user(:job_status => USER_JOB_STATUS[:observer],  :name => "Admin 2", :email => "admin2@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
   admin.set_as_main_user
   
-  admin = User.create_main_user(  :name => "Admin 3", :email => "admin3@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
+  admin = User.create_main_user(:job_status => USER_JOB_STATUS[:observer],  :name => "Admin 3", :email => "admin3@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
   admin.set_as_main_user
   
-  admin = User.create_main_user(  :name => "Admin 4", :email => "admin4@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
+  admin = User.create_main_user(:job_status => USER_JOB_STATUS[:observer],  :name => "Admin 4", :email => "admin4@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
   admin.set_as_main_user
 
 
-  data_entry1 = User.create_object(:name => "Data Entry 1", :email => "data_entry1@gmail.com", 
+  data_entry1 = User.create_object(:job_status => USER_JOB_STATUS[:observer], :name => "Data Entry 1", :email => "data_entry1@gmail.com", 
                 :password => 'willy1234', 
                 :password_confirmation => 'willy1234',
                 :role_id => data_entry_role.id )
@@ -75,7 +75,7 @@ data_entry_role = Role.create!(
   data_entry1.password_confirmation = 'willy1234'
   data_entry1.save
 
-  data_entry2 = User.create_object(:name => "Data Entry 2", :email => "data_entry2@gmail.com", 
+  data_entry2 = User.create_object(:job_status => USER_JOB_STATUS[:observer], :name => "Data Entry 2", :email => "data_entry2@gmail.com", 
                 :password => 'willy1234', 
                 :password_confirmation => 'willy1234',
                 :role_id => data_entry_role.id )

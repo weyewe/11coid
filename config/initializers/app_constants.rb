@@ -90,3 +90,8 @@ CLEARANCE_STATUS = {
   :approved =>1 ,
   :rejected => 2 
 }
+
+USER_JOB_STATUS = {
+  :observer => 1 , 
+  :worker => 2 
+}
