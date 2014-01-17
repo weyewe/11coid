@@ -90,6 +90,7 @@ Ext.define('AM.view.operation.draft.List' ,{
 	enableRecordButtons: function() {
 		this.editObjectButton.enable();
 		this.deleteObjectButton.enable();
+		
 		this.finishObjectButton.enable(); 
 		this.submitObjectButton.enable(); 
 		this.clearObjectButton.enable(); 
@@ -99,11 +100,11 @@ Ext.define('AM.view.operation.draft.List' ,{
 
 	disableRecordButtons: function() {
 		this.editObjectButton.disable();
-		this.deleteObjectButton.disable(); 
+		this.deleteObjectButton.disable();
+		 
 		this.finishObjectButton.disable();
-		
 		this.submitObjectButton.disable();
-		this.clearObjectButton.enable(); 
+		this.clearObjectButton.disable(); 
 		
 	}
 });

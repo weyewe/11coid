@@ -20,12 +20,27 @@ class Draft < ActiveRecord::Base
     
     self.save 
   end
+  
+  def self.can_create_object?( job_id ) 
+    job_object = Job.find_by_id job_id
+    
+    return false if job_object.nil? 
+    
+    job_object.drafts.where(:is_cleared => false).count == 0 
+  end
 
   def self.create_object( params ) 
+    
     new_object = self.new
     new_object.job_id = params[:job_id]
     new_object.description = params[:description]
     new_object.dispatched_at = params[:dispatched_at]
+    
+    if not self.can_create_object?( params[:job_id])
+      new_object.errors.add(:generic_errors, "Tidak bisa create draft. Ada draft yang belum di selesaikan")
+      return new_object
+    end
+    
     
     if new_object.save 
       new_object.assign_code
@@ -40,9 +55,20 @@ class Draft < ActiveRecord::Base
     self.dispatched_at = params[:dispatched_at]
     self.save
   end
+  
+  def is_last_draft?
+    return true if self.job.drafts.count == 1 
+    
+    return true if  self.job.drafts.order("id DESC").first.id == self.id 
+    
+    return false 
+  end
 
   def delete_object
-    self.destroy 
+    self.destroy  if ( self.is_last_draft? and not self.is_cleared? )  
+    
+    self.errors.add(:generic_errors, "Tidak bisa delete draft yang sudah selesai")
+    return self 
   end
   
   def self.active_objects
@@ -63,6 +89,11 @@ class Draft < ActiveRecord::Base
   end
   
   def submit( submitted_datetime )
+    if not self.is_finished?
+      self.errors.add(:generic_errors, "Harus diselesaikan terlebih dahulu")
+      return self 
+    end
+    
     if not submitted_datetime.present? 
       self.errors.add(:submitted_at, "Harus ada waktu selesai external")
       return self
@@ -75,11 +106,26 @@ class Draft < ActiveRecord::Base
   end
   
   def clear( cleared_datetime  , clearance_status)
+    
+    if not self.is_submitted?
+      self.errors.add(:generic_errors, "Harus di submit terlebih dahulu")
+      return self 
+    end
+    
     if not cleared_datetime.present? 
       self.errors.add(:cleared_at, "Harus ada waktu selesai external")
       return self
     end
     
+    
+    if not clearance_status.present? or 
+        not [ CLEARANCE_STATUS[:approved],
+          CLEARANCE_STATUS[:rejected]].include?( clearance_status.to_i )
+      
+      self.errors.add(:clearance_status, "Harus ada status penyelesaian")
+      return self 
+    end
+  
     self.is_cleared = true 
     self.cleared_at = cleared_datetime
     self.clearance_status = clearance_status

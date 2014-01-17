@@ -63,11 +63,11 @@ Ext.define('AM.view.operation.JobList' ,{
 
 	enableRecordButtons: function() {
 		this.editObjectButton.enable();
-		this.deleteObjectButton.enable();
+		// this.deleteObjectButton.enable();
 	},
 
 	disableRecordButtons: function() {
 		this.editObjectButton.disable();
-		this.deleteObjectButton.disable();
+		// this.deleteObjectButton.disable();
 	}
 });

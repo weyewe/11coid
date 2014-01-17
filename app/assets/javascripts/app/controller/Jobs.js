@@ -41,12 +41,7 @@ Ext.define('AM.controller.Jobs', {
 				selectionchange: this.parentSelectionChange,
 			},
 	
-      'operationjobList': {
-        // itemdblclick: this.editObject,
-        selectionchange: this.selectionChange,
-				destroy : this.onDestroy
-				// afterrender : this.loadObjectList,
-      }, 
+      
 
 			'operationjobList button[action=addObject]': {
         click: this.addObject
@@ -72,6 +67,11 @@ Ext.define('AM.controller.Jobs', {
 			'draftform button[action=save]': {
         click: this.updateChildObject
       },
+
+			'draftlist': {
+				selectionchange: this.selectionChange, 
+			},
+
 			'draftlist button[action=deleteObject]': {
         click: this.deleteChildObject
       },
@@ -300,6 +300,8 @@ Ext.define('AM.controller.Jobs', {
   
 
   selectionChange: function(selectionModel, selections) {
+	
+		// var parentGrid = this.getParentList();
     var grid = this.getList();
   
     if (selections.length > 0) {
@@ -315,17 +317,14 @@ Ext.define('AM.controller.Jobs', {
 		var parentList = me.getParentList();
 		var wrapper = me.getWrapper();
 		
-		
-		// console.log("parent selection change");
-		// console.log("The wrapper");
-		// console.log( wrapper ) ;
+		 
 
     if (selections.length > 0) {
 			// grid.enableAddButton();
-      // grid.enableRecordButtons();
+      parentList.enableRecordButtons();
     } else {
 			// grid.disableAddButton();
-      // grid.disableRecordButtons();
+      parentList.disableRecordButtons();
     }
 		
 		 
