@@ -124,13 +124,13 @@ class Api::JobCodesController < Api::BaseApiController
     # on PostGre SQL, it is ignoring lower case or upper case 
     
     if  selected_id.nil?
-      @objects = JobCode.where{ (code =~ query)   
+      @objects = JobCode.where{ (code =~ query)  | (description =~ query) 
                               }.
                         page(params[:page]).
                         per(params[:limit]).
                         order("id DESC")
                         
-      @total = JobCode.where{ (code =~ query)  
+      @total = JobCode.where{ (code =~ query)   | (description =~ query) 
                               }.count
     else
       @objects = JobCode.where{ (id.eq selected_id)  
