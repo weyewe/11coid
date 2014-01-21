@@ -18,12 +18,12 @@ class Api::PasswordsController < Api::BaseApiController
       render :json => {
         :success => true, 
         :message => "Pasword is updated succsesfully",
-        :auth_token => @user.authentication_token 
+        :auth_token => @user.authentication_token
       }
     else
       render :json => {
         :success => false, 
-        :message => "Fail to update password"
+        :message => "Fail to update password: #{@user.errors.first}" 
       }
     end
     
