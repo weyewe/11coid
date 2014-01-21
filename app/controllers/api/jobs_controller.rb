@@ -7,7 +7,8 @@ class Api::JobsController < Api::BaseApiController
       @objects = Job.includes(:job_code, :user).where{
         (
           (code =~  livesearch ) | 
-          (description =~ livesearch)
+          (description =~ livesearch) | 
+          ( user.name =~ livesearch)
         )
         
       }.page(params[:page]).per(params[:limit]).order("id DESC")
@@ -15,12 +16,16 @@ class Api::JobsController < Api::BaseApiController
       @total = Job.where{
         (
           (code =~  livesearch ) | 
-          (description =~ livesearch)
+          (description =~ livesearch) | 
+          ( user.name =~ livesearch)
         )
       }.count
       
       # calendar
-      
+    
+    elsif params[:is_assigned_job].present?
+      @objects = Job.includes(:job_code, :user).where(:user_id => current_user.id).page(params[:page]).per(params[:limit]).order("id DESC")
+      @total = Job.where(:user_id => current_user.id).count
     else
       puts "Inside the normal index"
       @objects = Job.includes(:job_code, :user).page(params[:page]).per(params[:limit]).order("id DESC")

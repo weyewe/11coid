@@ -1,5 +1,6 @@
 class Draft < ActiveRecord::Base
   belongs_to :job
+  belongs_to :user
   
   validates_presence_of :job_id 
   validates_presence_of :description 
@@ -18,6 +19,11 @@ class Draft < ActiveRecord::Base
       self.code = "#{self.job.code}/#{rev_code - 1}"
     end
     
+    self.save 
+  end
+  
+  def assign_user
+    self.user_id  = self.job.user_id
     self.save 
   end
   
@@ -44,6 +50,7 @@ class Draft < ActiveRecord::Base
     
     if new_object.save 
       new_object.assign_code
+      new_object.assign_user 
     end
     
     return new_object 

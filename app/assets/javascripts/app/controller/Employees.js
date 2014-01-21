@@ -1,8 +1,8 @@
 Ext.define('AM.controller.Employees', {
   extend: 'Ext.app.Controller',
 
-  stores: ['Users'],
-  models: ['User'],
+  stores: ['Employees'],
+  models: ['Employee'],
 
   views: [
     'operation.employee.List' 
@@ -46,9 +46,9 @@ Ext.define('AM.controller.Employees', {
     var grid = this.getList();
 
     if (selections.length > 0) {
-      grid.enableRecordButtons();
+      // grid.enableRecordButtons();
     } else {
-      grid.disableRecordButtons();
+      // grid.disableRecordButtons();
     }
   }
 

@@ -55,6 +55,7 @@ data_entry_role = Role.create!(
 
   admin = User.create_main_user(:job_status => USER_JOB_STATUS[:observer],  :name => "Admin", :email => "admin@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
   admin.set_as_main_user
+  admin1 = admin 
   
   admin = User.create_main_user(:job_status => USER_JOB_STATUS[:observer],  :name => "Admin 2", :email => "admin2@gmail.com" ,:password => "willy1234", :password_confirmation => "willy1234") 
   admin.set_as_main_user
@@ -111,12 +112,27 @@ data_entry_role = Role.create!(
   
   
   # make job
-  Job.create_object(
-    :user_id => data_entry2.id ,
-    :job_code_id =>  job_code_2.id ,
-    :description => "Test job 1",
-    :dispatched_at => DateTime.now
-  )
+  (1..20).each do |x|
+    Job.create_object(
+      :user_id => admin1.id ,
+      :job_code_id =>  job_code_2.id ,
+      :description => "Test job #{x}",
+      :dispatched_at => DateTime.now
+    )
+  
+  
+  end
+  
+  (1..20).each do |x|
+    Job.create_object(
+      :user_id => data_entry2.id ,
+      :job_code_id =>  job_code_2.id ,
+      :description => "Test job #{x}",
+      :dispatched_at => DateTime.now
+      )
+  end
+  
+  
   
   
   

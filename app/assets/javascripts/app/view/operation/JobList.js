@@ -5,6 +5,10 @@ Ext.define('AM.view.operation.JobList' ,{
   	store: 'Jobs', 
    
 
+		allowAdd : true , 
+		allowEdit : true , 
+		allowLiveSearch : true,
+
 	initComponent: function() {
 		this.columns = [
 		
@@ -43,13 +47,28 @@ Ext.define('AM.view.operation.JobList' ,{
 		});
 
 
-
-		this.tbar = [ this.addObjectButton, this.editObjectButton,'->', this.searchField ];
+		var me = this;
+		me.tbar = [];
+		// me.tbar = [ this.addObjectButton, this.editObjectButton,'->', this.searchField ];
+		
+		if( me.allowAdd){
+			me.tbar.push( me.addObjectButton );
+		}
+		
+		if( me.allowEdit){
+			me.tbar.push( me.editObjectButton );
+		}
+		
+		if( me.allowLiveSearch){
+			me.tbar.push( '->' );
+			me.tbar.push( me.searchField );
+		}
+		
 		this.bbar = Ext.create("Ext.PagingToolbar", {
 			store	: this.store, 
 			displayInfo: true,
-			displayMsg: 'Displaying topics {0} - {1} of {2}',
-			emptyMsg: "No topics to display" 
+			displayMsg: '{0} - {1} of {2}',
+			emptyMsg: "N/A" 
 		});
 
 		this.callParent(arguments);

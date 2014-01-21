@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20140107002153) do
     t.integer  "job_id"
     t.datetime "dispatched_at"
     t.text     "description"
+    t.integer  "user_id"
     t.integer  "status"
     t.string   "code"
     t.boolean  "is_finished",      default: false

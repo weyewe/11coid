@@ -67,8 +67,8 @@ Ext.define("AM.controller.Operation", {
 				]
 			}, 
 			{ 
-				text:'EmployeeLoad', 
-				viewClass:'AM.view.operation.EmployeeLoad', 
+				text:'Employee', 
+				viewClass:'AM.view.operation.Employee', 
 				leaf:true, 
 				iconCls:'text',
 				conditions : [
@@ -80,6 +80,27 @@ Ext.define("AM.controller.Operation", {
 			},
     ]
 	},
+	
+	personalFolder : {
+		text 			: "Personal", 
+		viewClass : '',
+		iconCls		: 'text-folder', 
+    expanded	: true,
+		children 	: [
+			{ 
+				text:'Assigned Job', 
+				viewClass:'AM.view.operation.AssignedJob', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+				{
+					controller : 'users',
+					action : 'index'
+				}
+				]
+			} 
+    ]
+	},
 	   
 	 
 	onActiveProtectedContent: function( panel, options) {
@@ -89,6 +110,7 @@ Ext.define("AM.controller.Operation", {
 		
 		me.folderList = [
 			this.setupFolder,
+			this.personalFolder
 			// this.inventoryFolder,
 			// this.reportFolder,
 			// this.projectReportFolder

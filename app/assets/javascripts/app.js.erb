@@ -35,6 +35,10 @@ Ext.application({
 
 
 
+
+
+
+
 Ext.override(Ext.Container, {
     removeAll: function() {
         this.items.each(function(childItem){ this.remove(childItem);}, this);
@@ -57,12 +61,6 @@ Ext.define("AM.view.Constants",{
 	switchOperation : 1 ,
 	switchMaster : 2 ,  
 });
-
-
-
-
-
-
 
 
 

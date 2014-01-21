@@ -9,7 +9,6 @@ Ext.define('AM.controller.Jobs', {
 		'operation.draft.Form',
 		'operation.draft.FinishDraftForm',
 	
-    'operation.job.List',
 		'operation.job.Form',
 		'operation.Job',
 		'operation.JobList'
@@ -30,7 +29,7 @@ Ext.define('AM.controller.Jobs', {
 		},
 		{
 			ref : 'searchField',
-			selector: 'joblist textfield[name=searchField]'
+			selector: 'operationjobList textfield[name=searchField]'
 		}
 	],
 
@@ -39,6 +38,10 @@ Ext.define('AM.controller.Jobs', {
 			'jobProcess operationjobList' : {
 				afterrender : this.loadParentObjectList,
 				selectionchange: this.parentSelectionChange,
+				destroy : this.onDestroy,
+				// beforeremove : this.onDeactivatePanel,
+				// beforehide : this.onRemovePanel,
+				// disable : this.onBeforeHide 
 			},
 	
       
@@ -103,22 +106,37 @@ Ext.define('AM.controller.Jobs', {
     });
   },
 
+	onDeactivatePanel: function(){
+		console.log("On deactivate panel");
+	},
 	
+	onRemovePanel : function(){
+		console.log("on remove panel");
+	},
+	
+	onBeforeHide: function(){
+		console.log("on before hide");
+	},
 
 	onDestroy: function(){
 		// console.log("on Destroy the savings_entries list ");
+		// this.getJobsStore().loadData([],false);
 		this.getJobsStore().loadData([],false);
+		this.getDraftsStore().loadData([], false);
+		this.getParentList().getStore().getProxy().extraParams = {};
+		this.getList().getStore().getProxy().extraParams = {};
+		
 	},
 
 	liveSearch : function(grid, newValue, oldValue, options){
 		// console.log("This is the live search from WeeklyCollectios");
 		var me = this;
 
-		me.getGroupLoansStore().getProxy().extraParams = {
+		me.getJobsStore().getProxy().extraParams = {
 		    livesearch: newValue
 		};
 	 
-		me.getGroupLoansStore().load();
+		me.getJobsStore().load();
 	},
  
 
@@ -126,8 +144,16 @@ Ext.define('AM.controller.Jobs', {
 		me.getStore().load();
 	},
 	
+	cleanUp: function(){
+		this.getJobsStore().loadData([],false);
+		this.getDraftsStore().loadData([], false);
+		this.getParentList().getStore().getProxy().extraParams = {};
+		this.getList().getStore().getProxy().extraParams = {};
+	},
+	
 	loadParentObjectList: function(me){
-		console.log("after render the jobs controller list");
+		this.cleanUp();
+		// console.log("Jobs controller: after render the jobs controller list");
 		me.getStore().getProxy().extraParams = {};
 		me.getStore().load(); 
 	},

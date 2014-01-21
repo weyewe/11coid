@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   before_save :ensure_authentication_token
   
   has_many :jobs
+  has_many :drafts
   
   def ensure_authentication_token
     if authentication_token.blank?
@@ -161,6 +162,11 @@ class User < ActiveRecord::Base
     self.role_id = admin_role.id 
     self.is_main_user = true 
     self.save 
+  end
+  
+  
+  def self.workers
+    self.where(:job_status =>  USER_JOB_STATUS[:worker])
   end
   
   def job_status_text

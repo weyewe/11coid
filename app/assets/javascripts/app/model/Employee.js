@@ -3,6 +3,9 @@ Ext.define('AM.model.Employee', {
   	fields: [
     	{ name: 'id', type: 'int' }, 
     	{ name: 'name', type: 'string' } ,
+			{ name: 'on_progress', type: 'int' } ,
+			{ name: 'pending_submit', type: 'int' } ,
+			{ name: 'pending_clearance', type: 'int' } ,
   	],
    
   	idProperty: 'id' ,proxy: {

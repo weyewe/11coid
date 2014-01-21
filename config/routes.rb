@@ -12,6 +12,7 @@ EleveniaSheet::Application.routes.draw do
     
     resources :app_users
     resources :job_codes 
+    resources :employees 
     
     resources :jobs
     resources :drafts

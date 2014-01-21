@@ -3,6 +3,13 @@ Ext.define('AM.view.operation.draft.List' ,{
   	alias : 'widget.draftlist',
 
   	store: 'Drafts', 
+
+		allowAdd : true, 
+		allowEdit : true , 
+		allowDelete : true,
+		allowFinish : true, 
+		allowSubmit : true,
+		allowClear : true ,
  
 
 	initComponent: function() {
@@ -62,15 +69,56 @@ Ext.define('AM.view.operation.draft.List' ,{
 
 
 
-		this.tbar = [this.addObjectButton, this.editObjectButton, this.deleteObjectButton,
-		  		'->',
-					this.finishObjectButton,
-					'-',
-					this.submitObjectButton,
-					'-',
-					this.clearObjectButton,
-						
-		];
+		// this.tbar = [this.addObjectButton, this.editObjectButton, this.deleteObjectButton,
+		//   		'->',
+		// 			this.finishObjectButton,
+		// 			'-',
+		// 			this.submitObjectButton,
+		// 			'-',
+		// 			this.clearObjectButton,
+		// 				
+		// ];
+		
+		this.tbar = [];
+		
+		var me = this;
+	 
+		
+		if( me.allowAdd) {
+			me.tbar.push( me.addObjectButton );
+		}
+		
+		if( me.allowEdit) {
+			me.tbar.push( me.editObjectButton );
+		}
+		
+		if( me.allowDelete) {
+			me.tbar.push( me.deleteObjectButton );
+		}
+		
+		if( me.allowFinish || me.allowSubmit || me.allowClear){
+			me.tbar.push('->');
+		}
+		
+		
+		
+	 
+		
+		if( me.allowFinish) {
+			me.tbar.push( me.finishObjectButton );
+		}
+		
+		if( me.allowSubmit) {
+			me.tbar.push( me.submitObjectButton );
+		}
+		if( me.allowClear) {
+			me.tbar.push( me.clearObjectButton );
+		}
+		
+		
+		
+		
+		
 		this.bbar = Ext.create("Ext.PagingToolbar", {
 			store	: this.store, 
 			displayInfo: true,

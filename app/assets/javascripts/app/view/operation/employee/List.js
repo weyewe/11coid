@@ -10,6 +10,9 @@ Ext.define('AM.view.operation.employee.List' ,{
 		this.columns = [
 			{ header: 'ID', dataIndex: 'id'},
 			{ header: 'Nama',  dataIndex: 'name', flex: 1}, 
+			{ header: 'On Progress',  dataIndex: 'on_progress', flex: 1}, 
+			{ header: 'Pending Submit',  dataIndex: 'pending_submit', flex: 1}, 
+			{ header: 'Pending Clearance',  dataIndex: 'pending_clearance', flex: 1}, 
 		];
  
 
