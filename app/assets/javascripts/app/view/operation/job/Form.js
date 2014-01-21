@@ -48,6 +48,11 @@ Ext.define('AM.view.operation.job.Form', {
 					{
 						name : 'job_code_id',
 						mapping : 'id'
+					},
+					{
+						
+						name : 'job_code_description',
+						mapping : 'description'
 					}
 			],
 			proxy  	: {
@@ -113,7 +118,8 @@ Ext.define('AM.view.operation.job.Form', {
 					listConfig : {
 						getInnerTpl: function(){
 							return  	'<div data-qtip="{job_code_code}">' +  
-													'<div class="combo-name">{job_code_code}</div>' + 
+													'<div class="combo-name">{job_code_code}</div>' +
+													'<p>{job_code_description}</p>' +  
 							 					'</div>';
 						}
 					},
