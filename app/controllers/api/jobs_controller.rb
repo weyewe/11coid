@@ -4,7 +4,7 @@ class Api::JobsController < Api::BaseApiController
     
     if params[:livesearch].present? 
       livesearch = "%#{params[:livesearch]}%"
-      @objects = Job.includes(:job_code, :user).where{
+      @objects = Job.joins(:job_code, :user).where{
         (
           (code =~  livesearch ) | 
           (description =~ livesearch) | 
@@ -13,7 +13,7 @@ class Api::JobsController < Api::BaseApiController
         
       }.page(params[:page]).per(params[:limit]).order("id DESC")
       
-      @total = Job.where{
+      @total = Job.joins(:job_code, :user).where{
         (
           (code =~  livesearch ) | 
           (description =~ livesearch) | 

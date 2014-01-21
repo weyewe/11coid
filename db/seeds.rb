@@ -81,7 +81,7 @@ data_entry_role = Role.create!(
   
   # ["data_entry1@gmail.com", "data_entry2@gmail.com", "admin2@gmail.com", "admin@gmail.com", "admin4@gmail.com", "admin3@gmail.com"]
   
-  worker_array = [
+  worker_hash_array = [
       {
         :name => "Rahmat Agung Saputra",
         :email => "ragustra@11ina.com"
@@ -116,7 +116,9 @@ data_entry_role = Role.create!(
       },
     ] 
     
-  worker_array.each do |x|
+    
+  worker_array = []
+  worker_hash_array.each do |x|
     data_entry2 = User.create_object(:job_status => USER_JOB_STATUS[:worker], 
                   :name => x[:name], 
                   :email => x[:email], 
@@ -127,6 +129,7 @@ data_entry_role = Role.create!(
     data_entry2.password = 'willy1234'
     data_entry2.password_confirmation = 'willy1234'
     data_entry2.save
+    worker_array << data_entry2
   end
   
   
@@ -228,7 +231,18 @@ data_entry_role = Role.create!(
         :description => "Seller Zone Billboard Banner"
       } 
     ]
-  
+    
+  all_job_code = main_page_job_code_master + level_1_job_code_master + 
+            seller_newsletter_job_code_master + promo_job_code_master + 
+            seller_zone_job_code_master
+            
+  all_job_code.each do |x|
+    JobCode.create_object(
+      :code => x[:code],
+      :description => x[:description ]
+    )
+  end
+    
   
   job_code_1 = JobCode.all[1]
 
@@ -238,17 +252,18 @@ data_entry_role = Role.create!(
   job_code_3 = JobCode.all[3]
   
   
-  # # make job
-  # (1..20).each do |x|
-  #   Job.create_object(
-  #     :user_id => admin1.id ,
-  #     :job_code_id =>  job_code_2.id ,
-  #     :description => "Test job #{x}",
-  #     :dispatched_at => DateTime.now
-  #   )
-  # 
-  # 
-  # end
+  # make job
+  total_worker = worker_array.length  
+  if not Rails.env.production?
+    (1..20).each do |x|
+      Job.create_object(
+        :user_id => worker_array[ rand( 0..(total_worker -1) ) ].id ,
+        :job_code_id =>  job_code_2.id ,
+        :description => "Test job #{x}",
+        :dispatched_at => DateTime.now
+      )
+    end
+  end
   # 
   # (1..20).each do |x|
   #   Job.create_object(
