@@ -78,6 +78,18 @@ Ext.define("AM.controller.Operation", {
 				}
 				]
 			},
+			{ 
+				text:'Pending Clearance', 
+				viewClass:'AM.view.operation.Clearable', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+				{
+					controller : 'drafts',
+					action : 'index'
+				}
+				]
+			},
     ]
 	},
 	

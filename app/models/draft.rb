@@ -151,4 +151,16 @@ class Draft < ActiveRecord::Base
       
      
   end
+  
+  def self.clearables
+    self.joins(:job => [:user, :job_code]).where(:is_cleared => false, :is_submitted => true)
+  end
+  
+  def self.submittables
+    self.joins(:job=> [:user, :job_code]).where(:is_cleared => false, :is_submitted => false, :is_finished => true )
+  end
+  
+  def self.on_progress
+    self.joins(:job=> [:user, :job_code] ).where(:is_cleared => false, :is_submitted => false, :is_finished => false )
+  end
 end

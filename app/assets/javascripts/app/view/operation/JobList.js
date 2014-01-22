@@ -11,7 +11,6 @@ Ext.define('AM.view.operation.JobList' ,{
 
 	initComponent: function() {
 		this.columns = [
-		
 			{
 				xtype : 'templatecolumn',
 				// text : "Job",

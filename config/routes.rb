@@ -16,6 +16,7 @@ EleveniaSheet::Application.routes.draw do
     
     resources :jobs
     resources :drafts
+    resources :job_summaries
     
   end
 
