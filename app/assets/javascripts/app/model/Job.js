@@ -4,6 +4,7 @@ Ext.define('AM.model.Job', {
     	{ name: 'id', type: 'int' },
     	{ name: 'job_code_id', type: 'int' },
 			{ name: 'job_code_code', type: 'string' }  ,
+			{ name: 'job_code_description', type: 'string' }  ,
 			{ name: 'user_id', type: 'int' } ,
 			{ name: 'user_name', type: 'string' } ,
 			{ name: 'description', type: 'string' } ,

@@ -17,7 +17,8 @@ Ext.define('AM.view.operation.JobList' ,{
 				// text : "Job",
 				flex : 1,
 				tpl : '<b>{code}</b>' + '<br />' + 
-							'Banner Code: <b>{job_code_code}</b>' + '<br />'  + 
+							'Banner Code: <b>{job_code_code}</b>' +   
+							'<p style="padding-left: 4px;">{job_code_description}</p>' + '<br />'  + 
 							'Employee: <b>{user_name}</b>'+ '<br />'  + '<br />'  +
 							
 							'Mulai: <b>{dispatched_at }</b>'+ '<br />'  + '<br />'  +

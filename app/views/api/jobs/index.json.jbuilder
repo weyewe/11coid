@@ -7,6 +7,8 @@ json.jobs @objects do |object|
 	
 	json.job_code_id	 object.job_code.id
 	json.job_code_code object.job_code.code
+	json.job_code_description object.job_code.description
+	
 	json.user_id object.user.id 
 	json.user_name object.user.name
 	
