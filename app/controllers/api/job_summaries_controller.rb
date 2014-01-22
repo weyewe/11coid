@@ -10,7 +10,7 @@ class Api::JobSummariesController < Api::BaseApiController
       handle_submittables(params)
     end
     
-    if params[:on_progress].present?
+    if params[:is_finishable].present?
       handle_on_progress(params)
     end
   end

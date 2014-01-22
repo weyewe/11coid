@@ -78,6 +78,33 @@ Ext.define("AM.controller.Operation", {
 				}
 				]
 			},
+			
+			{ 
+				text:'Pending Finish', 
+				viewClass:'AM.view.operation.Finishable', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+				{
+					controller : 'drafts',
+					action : 'index'
+				}
+				]
+			},
+			
+			{ 
+				text:'Pending Submit', 
+				viewClass:'AM.view.operation.Submittable', 
+				leaf:true, 
+				iconCls:'text',
+				conditions : [
+				{
+					controller : 'drafts',
+					action : 'index'
+				}
+				]
+			},
+			
 			{ 
 				text:'Pending Clearance', 
 				viewClass:'AM.view.operation.Clearable', 
@@ -90,6 +117,8 @@ Ext.define("AM.controller.Operation", {
 				}
 				]
 			},
+			
+			
     ]
 	},
 	

@@ -1,27 +1,27 @@
-Ext.define('AM.controller.Clearables', {
+Ext.define('AM.controller.Finishables', {
   extend: 'Ext.app.Controller',
 
   stores: ['JobSummaries'],
   models: ['JobSummary'],
 
   views: [
-    'operation.clearable.List' 
+    'operation.finishable.List' 
   ],
 
   	refs: [
 		{
 			ref: 'list',
-			selector: 'clearablelist'
+			selector: 'finishablelist'
 		} 
 	],
 
   init: function() {
     this.control({
-      'clearablelist': {
+      'finishablelist': {
 				afterrender : this.loadObjectList,
       },
        
-			'clearablelist textfield[name=searchField]': {
+			'finishablelist textfield[name=searchField]': {
 				change: this.liveSearch
 			}
 		
@@ -33,7 +33,7 @@ Ext.define('AM.controller.Clearables', {
 
 		me.getJobSummariesStore().getProxy().extraParams = {
 		    livesearch: newValue,
-				is_clearable: true
+				is_finishable : true 
 		};
 	 
 		me.getJobSummariesStore().load();
@@ -43,7 +43,7 @@ Ext.define('AM.controller.Clearables', {
 	loadObjectList : function(me){
 		// console.log("************* IN THE USERS CONTROLLER: afterRENDER");
 		me.getStore().getProxy().extraParams = {
-		    is_clearable: true
+		    is_finishable: true
 		};
 		me.getStore().load();
 	},
