@@ -13,6 +13,8 @@ Ext.define('AM.model.JobSummary', {
 			{ name: 'submitted_at' , type : 'string'},
 			{ name: 'cleared_at' , type : 'string'},
 			
+			{ name: 'employee_name' , type : 'string'},
+			
     
   	],
 

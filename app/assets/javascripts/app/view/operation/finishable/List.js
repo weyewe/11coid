@@ -23,7 +23,8 @@ Ext.define('AM.view.operation.finishable.List' ,{
 				xtype : 'templatecolumn',
 				flex : 1,
 				tpl : '<b>{job_code}</b>' + '<br />' + 
-							'<b>{banner_code}</b>' + 
+							'<b>{banner_code}</b>' + '<br />' +  
+							'{employee_name}' + 
 							'<p>{banner_code_description}</p'
 			},
 			{	header: 'Banner Code', dataIndex: 'banner_code', flex: 1 },

@@ -20,6 +20,8 @@ json.job_summaries @objects do |object|
 	json.submitted_at           format_datetime_friendly(object.submitted_at)
 	json.cleared_at             format_datetime_friendly(object.cleared_at )
 	
+	json.employee_name object.user.name 
+	
 	
 	
  
