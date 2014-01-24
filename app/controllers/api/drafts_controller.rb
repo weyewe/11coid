@@ -33,6 +33,11 @@ class Api::DraftsController < Api::BaseApiController
   end
 
   def create
+    params[:draft][:dispatched_at] =  parse_datetime_from_client_booking( params[:draft][:dispatched_at] )
+    params[:draft][:finished_at] =  parse_datetime_from_client_booking( params[:draft][:finished_at] )
+    params[:draft][:submitted_at] =  parse_datetime_from_client_booking( params[:draft][:submitted_at] )
+    params[:draft][:cleared_at] =  parse_datetime_from_client_booking( params[:draft][:cleared_at] )
+    
     @object = Draft.create_object( params[:draft] )
     if @object.errors.size == 0 
       render :json => { :success => true, 

@@ -65,6 +65,7 @@ class Api::JobsController < Api::BaseApiController
 
   def update
     @object = Job.find(params[:id])  
+    params[:job][:dispatched_at] =  parse_datetime_from_client_booking( params[:job][:dispatched_at] )
     @object.update_object( params[:job] ) 
      
     if @object.errors.size == 0 
