@@ -8,7 +8,8 @@ class Api::JobsController < Api::BaseApiController
         (
           (code =~  livesearch ) | 
           (description =~ livesearch) | 
-          ( user.name =~ livesearch)
+          ( user.name =~ livesearch) | 
+          ( job_code.code =~ livesearch )
         )
         
       }.page(params[:page]).per(params[:limit]).order("id DESC")
@@ -17,7 +18,8 @@ class Api::JobsController < Api::BaseApiController
         (
           (code =~  livesearch ) | 
           (description =~ livesearch) | 
-          ( user.name =~ livesearch)
+          ( user.name =~ livesearch) | 
+          ( job_code.code =~ livesearch )
         )
       }.count
       
