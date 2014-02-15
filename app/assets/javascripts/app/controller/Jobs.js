@@ -50,6 +50,12 @@ Ext.define('AM.controller.Jobs', {
         click: this.addObject
       },
 
+
+
+			'operationjobList button[action=editObject]': {
+		    click: this.editObject
+		  },
+
 			'jobform button[action=save]': {
         click: this.updateObject
       },
@@ -162,6 +168,18 @@ Ext.define('AM.controller.Jobs', {
     var view = Ext.widget('jobform');
     view.show();
   },
+
+	editObject: function() {
+		
+		// console.log("Inside the editObject");
+		
+		var record = this.getParentList().getSelectedObject();
+		var view = Ext.widget('jobform');
+
+		view.down('form').loadRecord(record);
+		view.setComboBoxData(record); 
+  },
+
 
 	addChildObject: function(){
 		// console.log("Adding child object");

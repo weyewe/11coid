@@ -70,6 +70,10 @@ class Job < ActiveRecord::Base
     self.jobs.count != 0 
   end
   
+  def first_draft
+    self.drafts.order("id ASC").first 
+  end
+  
   def update_object(params)
     self.job_code_id = params[:job_code_id]
     self.description = params[:description]

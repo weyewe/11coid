@@ -77,7 +77,6 @@ class Api::JobsController < Api::BaseApiController
                           :id 							=>  	@object.id                  ,
                         	:code 			=>     @object.code   ,
                         	:description 		=> 	  @object.description  ,
-                        	:total_job 				=> 	  @object.jobs.count   ,
                         	:dispatched_at => format_datetime_friendly(@object.dispatched_at)   
                         ],
                         :total => Job.active_objects.count  } 
