@@ -97,9 +97,9 @@ class Report
       # non_submitted_counter = 0
       # non_finished_counter = 0 
       CSV.open(filename, 'w') do |csv| 
-        csv << ["No","JobCode", "Dispatched At" , "BannerCode", "TotalRevision"   ]
+        csv << ["No","JobCode", "Dispatched At" , "BannerCode", "TotalRevision"  , "Karyawan" ]
         
-        Job.joins(:drafts, :job_code).order("id ASC").each do |job|
+        Job.joins(:drafts, :job_code, :user).order("id ASC").each do |job|
           counter += 1 
           array = []
           array << counter
@@ -109,6 +109,7 @@ class Report
           
           array << job.job_code.code
           array << ( job.drafts.count - 1 ) 
+          array << job.user.name 
           
           # 
           # last_draft = job.drafts.order("id DESC").first

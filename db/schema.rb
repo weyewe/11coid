@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140107002153) do
+ActiveRecord::Schema.define(version: 20140508155921) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "categories", force: true do |t|
     t.text     "description"
@@ -68,11 +71,37 @@ ActiveRecord::Schema.define(version: 20140107002153) do
     t.datetime "updated_at"
   end
 
+  create_table "revisions", force: true do |t|
+    t.integer  "story_board_id"
+    t.datetime "feedback_given_at"
+    t.integer  "user_id"
+    t.text     "brief"
+    t.datetime "submitted_at"
+    t.boolean  "is_submitted"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "roles", force: true do |t|
     t.string   "name",        null: false
     t.string   "title",       null: false
     t.text     "description", null: false
     t.text     "the_role",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "story_boards", force: true do |t|
+    t.integer  "artwork_count",         default: 0
+    t.integer  "status",                default: 1
+    t.datetime "dispatched_at"
+    t.datetime "due_date"
+    t.text     "brief"
+    t.integer  "user_id"
+    t.datetime "submit_at"
+    t.boolean  "is_submitted",          default: false
+    t.boolean  "is_priority",           default: false
+    t.integer  "parent_story_board_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

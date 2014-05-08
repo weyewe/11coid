@@ -12,7 +12,7 @@ json.users @objects do |object|
 	json.name	object.name
 	
 	json.role_id object.role_id
-	json.role_name object.name
+	json.role_name object.role.name
 	 
 	
 	

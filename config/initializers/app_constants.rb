@@ -95,3 +95,8 @@ USER_JOB_STATUS = {
   :observer => 1 , 
   :worker => 2 
 }
+
+STORY_BOARD_STATUS = {
+  :banner => 1 , 
+  :html => 2 
+}
